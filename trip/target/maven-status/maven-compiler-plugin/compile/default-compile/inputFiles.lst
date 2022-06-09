@@ -1,0 +1,11 @@
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/entity/Trip.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/boundary/TripApplication.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/boundary/TripResource.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/EventuateJacksonConfig.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/boundary/TripBookRequest.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/EventuateConfig.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/control/TripCommandHandler.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/control/TripService.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/entity/TripStatus.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/entity/Destination.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip/src/main/java/io/jefrajames/sagademo/trip/entity/DestinationDB.java

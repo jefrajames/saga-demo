@@ -1,0 +1,9 @@
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/BookTripFailed.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/TripResult.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/commands/BookTripCommand.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/TransportType.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/TripCanceled.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/TripBooked.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/replies/TripConfirmed.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/commands/ConfirmTripCommand.java
+/Users/powerj/javadev/demo/devfest-lille-2022/saga-demo/trip-api-messaging/src/main/java/io/jefrajames/sagademo/trip/api/messaging/commands/CancelTripCommand.java

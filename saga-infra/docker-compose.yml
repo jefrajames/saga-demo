@@ -1,0 +1,98 @@
+version: '3'
+services:
+
+  zookeeper:
+    image: eventuateio/eventuate-zookeeper:0.15.0.BUILD-SNAPSHOT
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: eventuateio/eventuate-kafka:0.15.0.BUILD-SNAPSHOT
+    ports:
+      - 9092:9092
+      - 29092:29092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: LC://kafka:29092,LX://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: LC://kafka:29092,LX://${DOCKER_HOST_IP:-localhost}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LC
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_HEAP_OPTS: -Xmx192m
+
+  kafka-gui:
+    image: rsmnarts/kowl:latest
+    ports:
+      - 9088:8080
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKERS: kafka:29092
+
+  postgres-holiday:
+    image: kwongpan/eventuate-tram-sagas-postgres:14.2
+    ports:
+      - 5436:5432
+    environment:
+      POSTGRES_USER: eventuate
+      POSTGRES_PASSWORD: eventuate
+
+  postgres-trip:
+    image: kwongpan/eventuate-postgres:14.2
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: eventuate
+      POSTGRES_PASSWORD: eventuate
+
+  cdc-holiday:
+    image: eventuateio/eventuate-cdc-service:0.13.0.BUILD-SNAPSHOT
+    ports:
+      - "9086:8080"
+    depends_on:
+      - postgres-holiday
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-holiday/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      # Dissociate Holiday & Trip CDCs for Zookeeper election
+      EVENTUATELOCAL_CDC_LEADERSHIP_LOCK_PATH : /eventuatelocal/cdc/leader/1
+      EVENTUATELOCAL_CDC_READER_NAME: HolidayPostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling
+      # Default to 500 : too slow for the demo
+      EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 100
+      EVENTUATE_OUTBOX_ID: 1
+      JAVA_OPTS: -Xmx64m
+
+  cdc-trip:
+    image: eventuateio/eventuate-cdc-service:0.13.0.BUILD-SNAPSHOT
+    ports:
+      - "9084:8080"
+    depends_on:
+      - postgres-trip
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-trip/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      # Dissociate Holiday & Trip CDCs for Zookeeper election
+      EVENTUATELOCAL_CDC_LEADERSHIP_LOCK_PATH : /eventuatelocal/cdc/leader/2
+      EVENTUATELOCAL_CDC_READER_NAME: TripPostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling
+      # Default to 500 : too slow for the demo
+      EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 100
+      EVENTUATE_OUTBOX_ID: 5
+      JAVA_OPTS: -Xmx64m
